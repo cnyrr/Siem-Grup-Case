@@ -18,6 +18,8 @@ namespace API.Models
         public int PublishedYear { get; set; }
 
         // Many-to-One relationship with Author.
+        public required int AuthorId { get; set; }
+
         public required Author Author { get; set; }
 
         [Required]

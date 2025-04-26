@@ -15,7 +15,7 @@
             modelBuilder.Entity<Book>()
                 .HasOne(b => b.Author)
                 .WithMany(a => a.Books)
-                .HasForeignKey(b => b.Author)
+                .HasForeignKey(b => b.AuthorId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             base.OnModelCreating(modelBuilder);
