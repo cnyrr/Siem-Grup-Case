@@ -17,19 +17,10 @@ namespace API.Models
         [Required]
         public int PublishedYear { get; set; }
 
-        // Foreign key from Author.
-        [Required]
-        public int AuthorId { get; set; }
+        // Many-to-One relationship with Author.
+        public required Author Author { get; set; }
 
         [Required]
         public decimal Price { get; set; }
-        /*
-        Book: 
-        Id(int, primary key)
-        Title(string, required, max length 200)
-        PublishedYear(int, required)
-        AuthorId(foreign key from Author)
-        Price(decimal, required)
-        */
     }
 }
