@@ -1,8 +1,22 @@
-﻿using API.Models;
+﻿using API.DTOs;
+using API.Models;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace API.Swagger
 {
+    public class ExampleAuthorDTOResponse : IExamplesProvider<AuthorDTO>
+    {
+        public AuthorDTO GetExamples()
+        {
+            return new AuthorDTO
+            {
+                Id = 0,
+                Name = "J. R. R. Tolkien",
+                BirthDate = new DateTime(1892, 1, 3)
+            };
+        }
+    }
+
     public class ExampleEmptyListAuthorResponse : IExamplesProvider<IEnumerable<Author>>
     {
         public IEnumerable<Author> GetExamples()

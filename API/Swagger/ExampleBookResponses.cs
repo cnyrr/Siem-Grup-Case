@@ -6,6 +6,34 @@ namespace API.Swagger
 {
     public class ExampleBookResponses
     {
+        public class ExampleBookDTOResponse : IExamplesProvider<BookDTO>
+        {
+            public BookDTO GetExamples()
+            {
+                return new BookDTO
+                {
+                    Id = 0,
+                    Title = "The Hobbit",
+                    PublishedYear = 1937,
+                    AuthorId = 1,
+                    Price = 12.99m
+                };
+            }
+        }
+        public class ExampleBookResponse : IExamplesProvider<Book>
+        {
+            public Book GetExamples()
+            {
+                return new Book
+                {
+                    Id = 2,
+                    Title = "The Hobbit",
+                    PublishedYear = 1937,
+                    AuthorId = 1,
+                    Price = 12.99m
+                };
+            }
+        }
         public class ExampleBookListResponse : IExamplesProvider<List<Book>>
         {
             public List<Book> GetExamples()
