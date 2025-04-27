@@ -1,6 +1,7 @@
 ﻿using static System.Runtime.InteropServices.JavaScript.JSType;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace API.Models
 {
@@ -17,9 +18,11 @@ namespace API.Models
         [Required]
         public int PublishedYear { get; set; }
 
-        // Many-to-One relationship with Author.
+        // Foreign Key to Author.
         public required int AuthorId { get; set; }
 
+        // Avoids circular reference in API.
+        [JsonIgnore]
         public required Author Author { get; set; }
 
         [Required]
