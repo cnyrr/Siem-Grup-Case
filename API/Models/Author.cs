@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using API.DTOs;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace API.Models
 {
@@ -15,6 +17,7 @@ namespace API.Models
         public DateTime BirthDate { get; set; }
 
         // One-to-Many relationship with Book.
+        [JsonIgnore]
         public ICollection<Book> Books { get; set; } = [];
     }
 }

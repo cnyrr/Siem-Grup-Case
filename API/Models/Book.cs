@@ -1,12 +1,12 @@
 ﻿using static System.Runtime.InteropServices.JavaScript.JSType;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace API.Models
 {
     public class Book
     {
-        // Primary Key.
         [Key]
         public int Id { get; set; }
 
@@ -17,9 +17,11 @@ namespace API.Models
         [Required]
         public int PublishedYear { get; set; }
 
-        // Many-to-One relationship with Author.
+        // Foreign Key from Author.
         public required int AuthorId { get; set; }
 
+        // Navigation property.
+        [JsonIgnore]
         public required Author Author { get; set; }
 
         [Required]
