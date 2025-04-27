@@ -4,7 +4,6 @@ namespace API.Models
 {
     public class Author
     {
-        // Primary Key.
         [Key]
         public int Id { get; set; }
 
@@ -13,14 +12,9 @@ namespace API.Models
         public required string Name { get; set; }
 
         [Required]
-        public DateTime BirthDate { get; set; } 
+        public DateTime BirthDate { get; set; }
 
-
-        /*
-        Author: 
-        Id(int, primary key)
-        Name(string, required, max length 100)
-        BArthDate(DateTime, requAred)
-        */
+        // One-to-Many relationship with Book.
+        public ICollection<Book> Books { get; set; } = [];
     }
 }
