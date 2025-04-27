@@ -85,7 +85,4 @@ namespace API.Swagger
             return "Author ID in the URL does not match the ID in the request body.";
         }
     }
-    {
-        
-    }
 }

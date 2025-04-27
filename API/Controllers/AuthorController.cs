@@ -8,7 +8,7 @@ using Swashbuckle.AspNetCore.Filters;
 namespace API.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/authors")]
     public class AuthorController : ControllerBase
     {
         private readonly LibraryDbContext _context;
@@ -118,17 +118,17 @@ namespace API.Controllers
         [SwaggerResponseExample(StatusCodes.Status409Conflict, typeof(ExampleAuthorIDMismatchResponse))]
         public async Task<IActionResult> PutAuthor(int id, Author author)
         {
+            // Check if author is null.
+            if (author == null)
+            {
+                return BadRequest("Author object is null.");
+            }
+
             // Check if the author exists.
             var existingAuthor = await _context.Authors.FindAsync(id);
             if (existingAuthor == null)
             {
                 return NotFound();
-            }
-
-            // Check if author is null.
-            if (author == null)
-            {
-                return BadRequest("Author object is null.");
             }
 
             // Check if the author ID in the URL matches the ID in the body.
