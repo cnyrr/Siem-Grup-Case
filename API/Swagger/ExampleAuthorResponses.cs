@@ -66,7 +66,7 @@ namespace API.Swagger
     {
         public string GetExamples()
         {
-            return "Author with the same ID already exists.";
+            return "Author with ID 1 already exists.";
         }
     }
 
