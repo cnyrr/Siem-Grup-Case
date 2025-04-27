@@ -53,4 +53,28 @@ namespace API.Swagger
             return "Author with ID 1 was not found.";
         }
     }
+
+    public class ExampleAuthorNullResponse : IExamplesProvider<string>
+    {
+        public string GetExamples()
+        {
+            return "Author object is null.";
+        }
+    }
+
+    public class ExampleAuthorIDExistsResponse : IExamplesProvider<string>
+    {
+        public string GetExamples()
+        {
+            return "Author with the same ID already exists.";
+        }
+    }
+
+    public class ExampleAuthorHasBooksResponse : IExamplesProvider<string>
+    {
+        public string GetExamples()
+        {
+            return "Author has books and cannot be deleted.";
+        }
+    }
 }
