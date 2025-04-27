@@ -1,14 +1,12 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
-using System;
+﻿using API.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
-namespace API.Models
+namespace API.DTOs
 {
-    public class Book
+    public class BookDTO
     {
-        [Key]
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [Required]
         [MaxLength(200)]
@@ -21,12 +19,8 @@ namespace API.Models
         // Foreign Key from Author.
         public required int AuthorId { get; set; }
 
-        // Navigation property.
-        [JsonIgnore]
-        public Author? Author { get; set; }
-
         [Required]
         [Range(0, double.MaxValue)]
-        public required decimal Price { get; set; }
+        public decimal Price { get; set; }
     }
 }

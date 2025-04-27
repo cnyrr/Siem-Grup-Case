@@ -1,8 +1,22 @@
-﻿using API.Models;
+﻿using API.DTOs;
+using API.Models;
 using Swashbuckle.AspNetCore.Filters;
 
 namespace API.Swagger
 {
+    public class ExampleAuthorDTOResponse : IExamplesProvider<AuthorDTO>
+    {
+        public AuthorDTO GetExamples()
+        {
+            return new AuthorDTO
+            {
+                Id = 0,
+                Name = "J. R. R. Tolkien",
+                BirthDate = new DateTime(1892, 1, 3)
+            };
+        }
+    }
+
     public class ExampleEmptyListAuthorResponse : IExamplesProvider<IEnumerable<Author>>
     {
         public IEnumerable<Author> GetExamples()
@@ -66,7 +80,7 @@ namespace API.Swagger
     {
         public string GetExamples()
         {
-            return "Author with the same ID already exists.";
+            return "Author with ID 1 already exists.";
         }
     }
 
@@ -84,8 +98,5 @@ namespace API.Swagger
         {
             return "Author ID in the URL does not match the ID in the request body.";
         }
-    }
-    {
-        
     }
 }
