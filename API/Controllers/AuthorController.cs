@@ -1,6 +1,9 @@
-﻿using API.Models;
+﻿using API.DTOs;
+using API.Models;
+using API.Swagger;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace API.Controllers
 {
@@ -15,9 +18,12 @@ namespace API.Controllers
             _context = context;
         }
 
-        // Fetch all authors from the database.
-        // Return an empty list if no authors are found.
+        /// <summary>
+        /// Fetch all authors from the database.
+        /// </summary>
+        /// <response code="200">Returns the list of authors.</response>
         [HttpGet]
+        [ProducesResponseType(typeof(List<Author>), StatusCodes.Status200OK, "application/json")]
         public async Task<ActionResult<IEnumerable<Author>>> GetAuthors()
         {
             var authors = await _context.Authors.ToListAsync();
@@ -25,9 +31,18 @@ namespace API.Controllers
             return Ok(authors);
         }
 
-        // Fetch a specific author by ID.
-        // Return a 404 error if the author is not found.
+        /// <summary>
+        /// Fetch the author with given id.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        /// <response code="200">Returns the author with the given ID.</response>
+        /// <response code="404">If the Author with ID wasn't found.</response>
         [HttpGet("{id}")]
+        [ProducesResponseType(typeof(Author), StatusCodes.Status200OK, "application/json")]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound, "text/plain"), ]
+        //[SwaggerResponseExample(StatusCodes.Status200OK, typeof(ExampleAuthorResponse))]
+        //[SwaggerResponseExample(StatusCodes.Status404NotFound, typeof(ExampleAuthorNotFoundResponse))]
         public async Task<ActionResult<Author>> GetAuthor(int id)
         {
             var author = await _context.Authors.FindAsync(id);

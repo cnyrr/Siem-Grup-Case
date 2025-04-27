@@ -7,7 +7,6 @@ namespace API.Models
 {
     public class Book
     {
-        // Primary Key.
         [Key]
         public int Id { get; set; }
 
@@ -18,10 +17,10 @@ namespace API.Models
         [Required]
         public int PublishedYear { get; set; }
 
-        // Foreign Key to Author.
+        // Foreign Key from Author.
         public required int AuthorId { get; set; }
 
-        // Avoids circular reference in API.
+        // Navigation property.
         [JsonIgnore]
         public required Author Author { get; set; }
 
