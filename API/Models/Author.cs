@@ -14,7 +14,7 @@ namespace API.Models
         public required string Name { get; set; }
 
         [Required]
-        public DateTime BirthDate { get; set; }
+        public required DateTime BirthDate { get; set; }
 
         // One-to-Many relationship with Book.
         [JsonIgnore]

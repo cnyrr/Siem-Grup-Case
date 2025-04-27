@@ -13,12 +13,14 @@ namespace API.DTOs
         public required string Title { get; set; }
 
         [Required]
-        public int PublishedYear { get; set; }
+        [Range(1, 9999)]
+        public required int PublishedYear { get; set; }
 
         // Foreign Key from Author.
         public required int AuthorId { get; set; }
 
         [Required]
+        [Range(0, double.MaxValue)]
         public decimal Price { get; set; }
     }
 }

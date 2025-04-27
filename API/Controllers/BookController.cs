@@ -64,7 +64,7 @@ namespace API.Controllers
         /// <response code="409">Book with the same ID already exists.</response>
         [HttpPost]
         [Consumes("application/json")]
-        [ProducesResponseType(typeof(Author), StatusCodes.Status201Created, "application/json")]
+        [ProducesResponseType(typeof(Book), StatusCodes.Status201Created, "application/json")]
         [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest, "text/plain")]
         [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound, "text/plain")]
         [ProducesResponseType(typeof(string), StatusCodes.Status409Conflict, "text/plain")]

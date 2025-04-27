@@ -116,10 +116,10 @@ namespace API.Controllers
         [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ExampleAuthorNullResponse))]
         [SwaggerResponseExample(StatusCodes.Status404NotFound, typeof(ExampleAuthorNotFoundResponse))]
         [SwaggerResponseExample(StatusCodes.Status409Conflict, typeof(ExampleAuthorIDMismatchResponse))]
-        public async Task<IActionResult> PutAuthor(int id, Author author)
+        public async Task<IActionResult> PutAuthor(int id, [FromBody] AuthorDTO author_dto)
         {
             // Check if author is null.
-            if (author == null)
+            if (author_dto == null)
             {
                 return BadRequest("Author object is null.");
             }
@@ -131,14 +131,17 @@ namespace API.Controllers
                 return NotFound();
             }
 
-            // Check if the author ID in the URL matches the ID in the body.
-            if (author.Id != id && author.Id != 0)
+            // Check if the author ID in the URL matches the ID in the body or is zero (also accepted).
+            if (author_dto.Id.HasValue)
             {
-                return Conflict("Author ID in URL does not match the ID in the body.");
+                if (author_dto.Id != 0 && author_dto.Id != existingAuthor.Id)
+                {
+                    return Conflict("Author ID in URL does not match the ID in the body.");
+                }
             }
 
-            existingAuthor.Name = author.Name;
-            existingAuthor.BirthDate = author.BirthDate;
+            existingAuthor.Name = author_dto.Name;
+            existingAuthor.BirthDate = author_dto.BirthDate;
 
             await _context.SaveChangesAsync();
 
@@ -160,7 +163,10 @@ namespace API.Controllers
         public async Task<IActionResult> DeleteAuthor(int id)
         {
             // Check if the author exists.
-            var author = await _context.Authors.FindAsync(id);
+            var author = await _context.Authors
+                .Include(a => a.Books)
+                .FirstOrDefaultAsync(a => a.Id == id);
+
             if (author == null)
             {
                 return NotFound($"Author with ID {id} was not found.");

@@ -15,7 +15,8 @@ namespace API.Models
         public required string Title { get; set; }
 
         [Required]
-        public int PublishedYear { get; set; }
+        [Range(1, 9999)]
+        public required int PublishedYear { get; set; }
 
         // Foreign Key from Author.
         public required int AuthorId { get; set; }
@@ -25,6 +26,7 @@ namespace API.Models
         public Author? Author { get; set; }
 
         [Required]
-        public decimal Price { get; set; }
+        [Range(0, double.MaxValue)]
+        public required decimal Price { get; set; }
     }
 }
