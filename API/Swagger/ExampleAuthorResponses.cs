@@ -77,4 +77,15 @@ namespace API.Swagger
             return "Author has books and cannot be deleted.";
         }
     }
+
+    public class ExampleAuthorIDMismatchResponse : IExamplesProvider<string>
+    {
+        public string GetExamples()
+        {
+            return "Author ID in the URL does not match the ID in the request body.";
+        }
+    }
+    {
+        
+    }
 }

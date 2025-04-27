@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace API.DTOs
 {
-    public class CreateAuthorDto
+    public class AuthorDTO
     {
         public int? Id { get; set; }
 

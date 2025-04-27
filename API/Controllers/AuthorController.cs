@@ -67,31 +67,31 @@ namespace API.Controllers
         [ProducesResponseType(typeof(string), StatusCodes.Status409Conflict, "text/plain")]
         [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ExampleAuthorNullResponse))]
         [SwaggerResponseExample(StatusCodes.Status409Conflict, typeof(ExampleAuthorIDExistsResponse))]
-        public async Task<ActionResult<Author>> PostAuthor([FromBody] CreateAuthorDto authorDTO)
+        public async Task<ActionResult<Author>> PostAuthor([FromBody] AuthorDTO author_dto)
         {
             // Validate the author object.
-            if (authorDTO == null)
+            if (author_dto == null)
             {
                 return BadRequest("Author object is null.");
             }
 
             // Check if the id already exists.
-            if (authorDTO.Id.HasValue)
+            if (author_dto.Id.HasValue)
             {
                 
-                var existingAuthor = await _context.Authors.FindAsync(authorDTO.Id);
+                var existingAuthor = await _context.Authors.FindAsync(author_dto.Id);
 
                 if (existingAuthor != null)
                 {
-                    return Conflict($"Author with ID {authorDTO.Id} already exists.");
+                    return Conflict($"Author with ID {author_dto.Id} already exists.");
                 }
             }
 
             var author = new Author
             {
-                Id = authorDTO.Id ?? 0,
-                Name = authorDTO.Name,
-                BirthDate = authorDTO.BirthDate
+                Id = author_dto.Id ?? 0,
+                Name = author_dto.Name,
+                BirthDate = author_dto.BirthDate
             };
 
             _context.Authors.Add(author);
@@ -101,24 +101,40 @@ namespace API.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Update an existing author in the database.
         /// </summary>
-        /// 
-        // Update an existing author in the database.
-        // Return a 400 error if the author ID in the URL does not match the ID in the body.
-        // Return a 404 error if the author is not found.
+        /// <response code="200">Responds with the updated author.</response>
+        /// <response code="400">Author object is null.</response>
+        /// <response code="404">Author with the given ID was not found.</response>
+        /// <response code="409">Author object is null or the ID in the URL does not match the ID in the body.</response>
         [HttpPut("{id}")]
+        [Consumes("application/json")]
+        [ProducesResponseType(typeof(Author), StatusCodes.Status200OK, "application/json")]
+        [ProducesResponseType(typeof(string), StatusCodes.Status400BadRequest, "text/plain")]
+        [ProducesResponseType(typeof(string), StatusCodes.Status404NotFound, "text/plain")]
+        [ProducesResponseType(typeof(string), StatusCodes.Status409Conflict, "text/plain")]
+        [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ExampleAuthorNullResponse))]
+        [SwaggerResponseExample(StatusCodes.Status404NotFound, typeof(ExampleAuthorNotFoundResponse))]
+        [SwaggerResponseExample(StatusCodes.Status409Conflict, typeof(ExampleAuthorIDMismatchResponse))]
         public async Task<IActionResult> PutAuthor(int id, Author author)
         {
-            if (id != author.Id)
-            {
-                return BadRequest("Author ID in URL does not match the ID in the body.");
-            }
-
+            // Check if the author exists.
             var existingAuthor = await _context.Authors.FindAsync(id);
             if (existingAuthor == null)
             {
                 return NotFound();
+            }
+
+            // Check if author is null.
+            if (author == null)
+            {
+                return BadRequest("Author object is null.");
+            }
+
+            // Check if the author ID in the URL matches the ID in the body.
+            if (author.Id != id && author.Id != 0)
+            {
+                return Conflict("Author ID in URL does not match the ID in the body.");
             }
 
             existingAuthor.Name = author.Name;
@@ -126,7 +142,7 @@ namespace API.Controllers
 
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok(existingAuthor);
         }
 
         /// <summary>
